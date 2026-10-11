@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -29,18 +28,27 @@ class DarSalamApp extends StatelessWidget {
   }
 }
 
+/// عنصر القائمة (بديل آمن عن Records)
+class MenuItem {
+  final String title;
+  final IconData icon;
+  final String subtitle;
+
+  const MenuItem(this.title, this.icon, this.subtitle);
+}
+
 class SchoolHome extends StatelessWidget {
   const SchoolHome({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final items = [
-      ('سجل الطلاب', Icons.people_alt, 'إضافة وبحث عن الطلاب'),
-      ('الحضور والغياب', Icons.fact_check, 'تسجيل الغياب اليومي'),
-      ('الدرجات والنتائج', Icons.school, 'إدارة درجات الطلبة'),
-      ('الملاك التدريسي', Icons.badge, 'بيانات المدرسين'),
-      ('الجداول الأسبوعية', Icons.calendar_month, 'توزيع الحصص'),
-      ('التقارير والإحصائيات', Icons.bar_chart, 'تقارير المدرسة'),
+    const items = <MenuItem>[
+      MenuItem('سجل الطلاب', Icons.people_alt, 'إضافة وبحث عن الطلاب'),
+      MenuItem('الحضور والغياب', Icons.fact_check, 'تسجيل الغياب اليومي'),
+      MenuItem('الدرجات والنتائج', Icons.school, 'إدارة درجات الطلبة'),
+      MenuItem('الملاك التدريسي', Icons.badge, 'بيانات المدرسين'),
+      MenuItem('الجداول الأسبوعية', Icons.calendar_month, 'توزيع الحصص'),
+      MenuItem('التقارير والإحصائيات', Icons.bar_chart, 'تقارير المدرسة'),
     ];
 
     return Scaffold(
@@ -53,6 +61,7 @@ class SchoolHome extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          // ===== البطاقة العلوية =====
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -78,7 +87,9 @@ class SchoolHome extends StatelessWidget {
               ],
             ),
           ),
+
           const SizedBox(height: 20),
+
           const Text(
             'أقسام الإدارة',
             style: TextStyle(
@@ -86,35 +97,41 @@ class SchoolHome extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+
           const SizedBox(height: 12),
-          ...items.map((item) => Card(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: const Color(0xFFE2ECFA),
-                    child: Icon(
-                      item.$2,
-                      color: const Color(0xFF123A70),
-                    ),
+
+          // ===== قائمة الأقسام =====
+          ...items.map(
+            (item) => Card(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: const Color(0xFFE2ECFA),
+                  child: Icon(
+                    item.icon,
+                    color: const Color(0xFF123A70),
                   ),
-                  title: Text(
-                    item.$1,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(item.$3),
-                  trailing: const Icon(Icons.arrow_back_ios_new),
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('سنجهز قسم ${item.$1} في الخطوة التالية'),
-                      ),
-                    );
-                  },
                 ),
-              )),
+                title: Text(
+                  item.title,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(item.subtitle),
+                trailing: const Icon(Icons.arrow_back_ios_new),
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('سنجهز قسم ${item.title} في الخطوة التالية'),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+
           const SizedBox(height: 16),
+
+          // ===== التوقيع =====
           const Center(
             child: Text(
               'تصميم معاون المدرسة فارس محمد حسين',
